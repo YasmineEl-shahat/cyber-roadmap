@@ -41,6 +41,9 @@
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
+  --color-cert-blue: var(--cert-blue);
+  --color-cert-red: var(--cert-red);
+  --color-cert-infosec: var(--cert-infosec);
 }
 
 :root {
