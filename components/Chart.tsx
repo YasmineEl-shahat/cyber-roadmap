@@ -46,11 +46,29 @@ export default function ChartComponent({ data }: Props) {
         },
         scales: {
           x: {
-            title: { text: "Market Presence", display: true },
+            title: {
+              text: "Market Presence",
+              display: true,
+              color: "rgb(203, 213, 225)",
+              font: { size: 16 },
+              align: "start",
+              padding: { top: 20 },
+            },
             min: 0,
             max: 1,
           },
-          y: { title: { text: "Satisfaction", display: true }, min: 1, max: 5 },
+          y: {
+            title: {
+              text: "Satisfaction",
+              display: true,
+              color: "rgb(203, 213, 225)",
+              font: { size: 16 },
+              align: "start",
+              padding: { bottom: 20 },
+            },
+            min: 1,
+            max: 5,
+          },
         },
       }}
     />
