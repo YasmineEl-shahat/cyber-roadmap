@@ -25,11 +25,11 @@ export default function ChartComponent({ data }: Props) {
         { x: certification.market_presence, y: certification.satisfaction },
       ],
       backgroundColor:
-        certification.cert_type === "red"
-          ? "#ff4444"
-          : certification.cert_type === "blue"
-          ? "#4285f4"
-          : "#22c55e",
+        certification.cert_type === "blue"
+          ? "oklch(0.594 0.16404 250.257 / 0.85)"
+          : certification.cert_type === "red"
+          ? "oklch(0.621 0.25441 29.197 / 0.85)"
+          : "oklch(0.605 0.1702 45.96 / 0.85)",
       pointRadius: 8,
       pointHoverRadius: 12,
     })),
