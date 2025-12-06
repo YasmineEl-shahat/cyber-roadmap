@@ -40,9 +40,9 @@ export default function ChartComponent({ data }: Props) {
       data={chartData}
       options={{
         responsive: true,
-
         plugins: {
           tooltip: { enabled: true },
+          legend: { display: false },
         },
         scales: {
           x: {
