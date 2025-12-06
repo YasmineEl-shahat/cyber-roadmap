@@ -39,6 +39,7 @@ export default function ChartComponent({ data }: Props) {
     <Scatter
       data={chartData}
       options={{
+        maintainAspectRatio: false,
         responsive: true,
         plugins: {
           tooltip: { enabled: true },
