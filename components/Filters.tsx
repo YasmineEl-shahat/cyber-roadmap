@@ -56,7 +56,7 @@ export default function Filters({
         selected={selectedLevels}
         onSelectedChange={handleLevelsChange}
         placeholder="Select Skill Level"
-        className="min-w-[220px]"
+        className="min-w-[220px] cursor-pointer"
       />
     </div>
   );
