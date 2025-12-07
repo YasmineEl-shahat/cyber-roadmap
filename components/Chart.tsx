@@ -66,7 +66,7 @@ export default function ChartComponent({ data, onSelect }: Props) {
         speed: 600,
       },
       events: {
-        dataPointSelection: (event, chartContext, config) => {
+        markerClick: (event, chartContext, config) => {
           const { seriesIndex, dataPointIndex } = config;
           const dataPoint = series[seriesIndex]?.data[dataPointIndex];
           if (dataPoint?.meta?.cert) {
