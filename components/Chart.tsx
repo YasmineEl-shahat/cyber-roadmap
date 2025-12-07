@@ -163,38 +163,87 @@ export default function ChartComponent({ data }: Props) {
     },
 
     annotations: {
-      points: [],
-      // xaxis: [
-      //   {
-      //     x: 0.5,
-      //     borderColor: "rgba(148,163,184,0.12)",
-      //     label: { text: "", style: { color: "var(--color-foreground)" } },
-      //   },
-      //   {
-      //     x: 0.25,
-      //     label: {
-      //       text: "CHALLENGERS",
-      //       style: { color: "#cbd5e1", fontSize: "12px", fontWeight: 700 },
-      //       position: "top",
-      //     },
-      //   },
-      //   {
-      //     x: 0.75,
-      //     label: {
-      //       text: "LEADERS",
-      //       style: { color: "#cbd5e1", fontSize: "12px", fontWeight: 700 },
-      //       position: "top",
-      //     },
-      //   },
-      // ],
+      xaxis: [
+        {
+          x: 0.5,
+          borderColor: "rgba(148,163,184,0.12)",
+        },
+      ],
       yaxis: [
         {
           y: 3,
           borderColor: "rgba(148,163,184,0.12)",
-          label: { text: "", style: { color: "var(--color-foreground)" } },
         },
-        // { y: 1, label: { text: "NIChe player", style: { color: "#cbd5e1" } } },
-        // { y: 0.4, label: { text: "", style: { color: "#cbd5e1" } } },
+      ],
+      points: [
+        {
+          x: 0.25,
+          y: 4.85,
+          marker: { size: 0 },
+          label: {
+            text: "CHALLENGERS",
+            style: {
+              color: "rgb(148, 163, 184)",
+              fontSize: "12px",
+              background: "rgba(241, 245, 249, 0.11)",
+            },
+            offsetY: -18,
+            offsetX: 0,
+            borderColor: "rgba(148,163,184,0.06)",
+            borderWidth: 0,
+          },
+        },
+        {
+          x: 0.75,
+          y: 4.85,
+          marker: { size: 0 },
+          label: {
+            text: "LEADERS",
+            style: {
+              color: "rgb(148, 163, 184)",
+              fontSize: "12px",
+              background: "rgba(241, 245, 249, 0.11)",
+            },
+            offsetY: -18,
+            offsetX: 0,
+            borderColor: "rgba(148,163,184,0.06)",
+            borderWidth: 0,
+          },
+        },
+        {
+          x: 0.3,
+          y: 1,
+          marker: { size: 0 },
+          label: {
+            text: "NICHE PLAYERS",
+            style: {
+              color: "rgb(148, 163, 184)",
+              fontSize: "12px",
+              background: "rgba(241, 245, 249, 0.11)",
+            },
+            offsetX: -40,
+            offsetY: 0,
+            borderColor: "rgba(148,163,184,0.06)",
+            borderWidth: 0,
+          },
+        },
+        {
+          x: 0.75,
+          y: 1.12,
+          marker: { size: 0 },
+          label: {
+            text: "VISIONARIES",
+            style: {
+              color: "rgb(148, 163, 184)",
+              fontSize: "12px",
+              background: "rgba(241, 245, 249, 0.11)",
+            },
+            offsetY: 12,
+            offsetX: 0,
+            borderColor: "rgba(148,163,184,0.06)",
+            borderWidth: 0,
+          },
+        },
       ],
     },
   };

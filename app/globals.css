@@ -44,6 +44,7 @@
   --color-cert-blue: var(--cert-blue);
   --color-cert-red: var(--cert-red);
   --color-cert-infosec: var(--cert-infosec);
+  --color-badge: var(--badge);
 }
 
 :root {
@@ -82,6 +83,7 @@
   --cert-blue: oklch(0.594 0.16404 250.257 / 0.85);
   --cert-red: oklch(0.621 0.25441 29.197 / 0.85);
   --cert-infosec: oklch(0.605 0.1702 45.96 / 0.85);
+  --badge: rgb(148, 163, 184);
 }
 
 .dark {
@@ -118,6 +120,7 @@
   --sidebar-ring: oklch(0.556 0 0);
   --cert-blue: oklch(0.594 0.16404 250.257 / 0.85);
   --cert-red: oklch(0.621 0.25441 29.197 / 0.85);
+  --badge: rgb(148, 163, 184);
   --cert-infosec: oklch(0.605 0.1702 45.96 / 0.85);
 }
 
