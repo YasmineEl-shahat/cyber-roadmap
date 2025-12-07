@@ -30,8 +30,8 @@ export default function ChartComponent({ data }: Props) {
           : certification.cert_type === "red"
           ? "oklch(0.621 0.25441 29.197 / 0.85)"
           : "oklch(0.605 0.1702 45.96 / 0.85)",
-      pointRadius: 8,
-      pointHoverRadius: 12,
+      pointRadius: 5,
+      pointHoverRadius: 6,
     })),
   };
 
