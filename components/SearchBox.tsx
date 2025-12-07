@@ -3,7 +3,7 @@ import { Input } from "@/components/ui/input";
 export default function SearchBox({
   onChange,
 }: {
-  onChange: (v: string) => void;
+  onChange: (value: string) => void;
 }) {
   return (
     <Input
