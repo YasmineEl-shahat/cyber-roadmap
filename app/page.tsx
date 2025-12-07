@@ -4,10 +4,13 @@ import { certifications } from "@/lib/mock-data";
 import ChartComponent from "@/components/Chart";
 import SearchBox from "@/components/SearchBox";
 import Filters from "@/components/Filters";
+import CertificationModal from "@/components/CertificationModal";
+import { Certification } from "@/lib/types";
 
 export default function Home() {
   const [search, setSearch] = useState("");
   const [filters, setFilters] = useState({ type: "blue", level: "" });
+  const [selected, setSelected] = useState<Certification | null>(null);
 
   const filtered = certifications.filter((certification) => {
     return (
@@ -26,9 +29,13 @@ export default function Home() {
         <Filters
           onFilter={(key, val) => setFilters((p) => ({ ...p, [key]: val }))}
         />
-
-        <ChartComponent data={filtered} />
+        <ChartComponent data={filtered} onSelect={setSelected} />
       </div>
+      <CertificationModal
+        cert={selected}
+        open={!!selected}
+        onClose={() => setSelected(null)}
+      />
     </main>
   );
 }

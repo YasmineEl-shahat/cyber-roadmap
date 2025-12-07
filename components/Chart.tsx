@@ -8,9 +8,10 @@ const Chart = dynamic(() => import("react-apexcharts"), {
 });
 type Props = {
   data: Certification[];
+  onSelect: (cert: Certification) => void;
 };
 
-export default function ChartComponent({ data }: Props) {
+export default function ChartComponent({ data, onSelect }: Props) {
   // Group certifications by cert_type
   const certTypeMap = {
     blue: {
@@ -43,7 +44,7 @@ export default function ChartComponent({ data }: Props) {
       x: cert.market_presence,
       y: cert.satisfaction,
       name: cert.abbreviation,
-      meta: { title: cert.title, votes: cert.total_votes },
+      meta: { title: cert.title, votes: cert.total_votes, cert: cert },
     });
   });
 
@@ -63,6 +64,15 @@ export default function ChartComponent({ data }: Props) {
       animations: {
         enabled: true,
         speed: 600,
+      },
+      events: {
+        dataPointSelection: (event, chartContext, config) => {
+          const { seriesIndex, dataPointIndex } = config;
+          const dataPoint = series[seriesIndex]?.data[dataPointIndex];
+          if (dataPoint?.meta?.cert) {
+            onSelect(dataPoint.meta.cert);
+          }
+        },
       },
     },
 
