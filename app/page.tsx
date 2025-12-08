@@ -52,7 +52,7 @@ export default function Home() {
   };
 
   return (
-    <main className="p-6 space-y-4 min-h-screen">
+    <main className="space-y-4 min-h-screen">
       <div
         ref={containerRef}
         className={`p-4 max-w-4xl mx-auto space-y-4 relative h-[600px] ${
