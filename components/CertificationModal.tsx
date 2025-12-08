@@ -19,7 +19,7 @@ export default function CertificationModal({
 
   return (
     <Dialog open={open} onOpenChange={onClose}>
-      <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+      <DialogContent className="max-w-2xl">
         <DialogTitle className="text-2xl font-bold">{cert.title}</DialogTitle>
 
         <p className="text-sm text-muted-foreground mt-2">{cert.description}</p>
