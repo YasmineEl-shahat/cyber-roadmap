@@ -136,9 +136,9 @@ export default function ChartComponent({ data, onSelect }: Props) {
 
     tooltip: {
       theme: "dark",
-      custom: function ({ series, seriesIndex, dataPointIndex }) {
+      custom: function ({ seriesIndex, dataPointIndex }) {
         try {
-          const dataPoint = series[seriesIndex]?.[dataPointIndex];
+          const dataPoint = series[seriesIndex]?.data[dataPointIndex];
           if (!dataPoint) return "";
 
           const name = dataPoint.name || "Unknown";
