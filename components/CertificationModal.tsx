@@ -2,13 +2,78 @@
 
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { Certification } from "@/lib/types";
-import { Lightbulb, Briefcase, GraduationCap } from "lucide-react";
+import { Lightbulb, Briefcase, GraduationCap, LucideIcon } from "lucide-react";
 
 interface CertificationModalProps {
   cert: Certification | null;
   open: boolean;
   onClose: (open: boolean) => void;
 }
+
+interface InfoFieldProps {
+  label: string;
+  value: string | number;
+  className?: string;
+  valueClassName?: string;
+}
+
+interface RequirementItemProps {
+  icon: LucideIcon;
+  label: string;
+  value: string;
+}
+
+interface TagsFieldProps {
+  label: string;
+  items: string[];
+  className?: string;
+}
+
+const InfoField = ({
+  label,
+  value,
+  className = "",
+  valueClassName = "",
+}: InfoFieldProps) => (
+  <div className={className}>
+    <p className="text-muted-foreground">{label}:</p>
+    <p className={`text-foreground ${valueClassName}`}>{value}</p>
+  </div>
+);
+
+const RequirementItem = ({
+  icon: Icon,
+  label,
+  value,
+}: RequirementItemProps) => (
+  <div className="flex items-start gap-3">
+    <Icon className="h-4 w-4 text-white mt-0.5 flex-shrink-0" />
+    <div>
+      <p className="text-muted-foreground text-xs">{label}:</p>
+      <p className="text-foreground text-sm">{value || "None"}</p>
+    </div>
+  </div>
+);
+
+const TagsField = ({ label, items, className = "" }: TagsFieldProps) => (
+  <div className={className}>
+    <p className="text-muted-foreground">{label}:</p>
+    <div className="flex flex-wrap gap-2 mt-2">
+      {items && items.length > 0 ? (
+        items.map((item, idx) => (
+          <span
+            key={idx}
+            className="px-3 py-1 bg-muted text-muted-foreground rounded text-xs"
+          >
+            {item}
+          </span>
+        ))
+      ) : (
+        <p className="text-foreground">None</p>
+      )}
+    </div>
+  </div>
+);
 
 export default function CertificationModal({
   cert,
@@ -21,97 +86,48 @@ export default function CertificationModal({
     <Dialog open={open} onOpenChange={onClose}>
       <DialogContent className="max-w-2xl">
         <DialogTitle className="text-2xl font-bold">{cert.title}</DialogTitle>
-
         <p className="text-sm text-muted-foreground mt-2">{cert.description}</p>
 
         <div className="grid grid-cols-2 gap-4 mt-6 text-sm">
-          {/* Provider */}
-          <div>
-            <p className="text-muted-foreground">Provider:</p>
-            <p className="text-foreground">{cert.provider?.name || "N/A"}</p>
-          </div>
-
-          {/* Cost */}
-          <div>
-            <p className="text-muted-foreground">Cost:</p>
-            <p className="text-foreground">{cert.cost || "N/A"}</p>
-          </div>
-
-          {/* Training */}
-          <div>
-            <p className="text-muted-foreground">Training:</p>
-            <p className="text-foreground">
-              {cert.training_included
+          <InfoField label="Provider" value={cert.provider?.name || "N/A"} />
+          <InfoField label="Cost" value={cert.cost || "N/A"} />
+          <InfoField
+            label="Training"
+            value={
+              cert.training_included
                 ? "Included in cost"
-                : "Not included in cost"}
-            </p>
-          </div>
+                : "Not included in cost"
+            }
+          />
+          <InfoField label="Valid for" value={cert.valid_for || "None"} />
 
-          {/* Valid for */}
-          <div>
-            <p className="text-muted-foreground">Valid for:</p>
-            <p className="text-foreground">{cert.valid_for || "None"}</p>
-          </div>
+          <TagsField
+            label="Job Roles"
+            items={cert.job_roles_titles || []}
+            className="col-span-2"
+          />
 
-          {/* Job Roles */}
-          <div className="col-span-2">
-            <p className="text-muted-foreground">Job Roles:</p>
-            <div className="flex flex-wrap gap-2 mt-2">
-              {cert.job_roles_titles && cert.job_roles_titles.length > 0 ? (
-                cert.job_roles_titles.map((role, idx) => (
-                  <span
-                    key={idx}
-                    className="px-3 py-1 bg-muted text-muted-foreground rounded text-xs"
-                  >
-                    {role}
-                  </span>
-                ))
-              ) : (
-                <p className="text-foreground">None</p>
-              )}
-            </div>
-          </div>
-
-          {/* Requirements */}
           <div className="col-span-2">
             <p className="text-muted-foreground mb-3">Requirements:</p>
             <div className="space-y-2">
-              <div className="flex items-start gap-3">
-                <Lightbulb className="h-4 w-4 text-white mt-0.5 flex-shrink-0" />
-                <div>
-                  <p className="text-muted-foreground text-xs">Knowledge:</p>
-                  <p className="text-foreground text-sm">
-                    {cert.requirements_data?.knowledge || "None"}
-                  </p>
-                </div>
-              </div>
-              <div className="flex items-start gap-3">
-                <Briefcase className="h-4 w-4 text-white mt-0.5 flex-shrink-0" />
-                <div>
-                  <p className="text-muted-foreground text-xs">
-                    Work Experience:
-                  </p>
-                  <p className="text-foreground text-sm">
-                    {cert.requirements_data?.work_experience || "None"}
-                  </p>
-                </div>
-              </div>
-              <div className="flex items-start gap-3">
-                <GraduationCap className="h-4 w-4 text-white mt-0.5 flex-shrink-0" />
-                <div>
-                  <p className="text-muted-foreground text-xs">
-                    Prior Courses/Certifications:
-                  </p>
-                  <p className="text-foreground text-sm">
-                    {cert.requirements_data?.prior_courses_and_certifications ||
-                      "None"}
-                  </p>
-                </div>
-              </div>
+              <RequirementItem
+                icon={Lightbulb}
+                label="Knowledge"
+                value={cert.requirements_data?.knowledge}
+              />
+              <RequirementItem
+                icon={Briefcase}
+                label="Work Experience"
+                value={cert.requirements_data?.work_experience}
+              />
+              <RequirementItem
+                icon={GraduationCap}
+                label="Prior Courses/Certifications"
+                value={cert.requirements_data?.prior_courses_and_certifications}
+              />
             </div>
           </div>
 
-          {/* Domains covered */}
           <div className="col-span-2">
             <p className="text-muted-foreground">Domains covered:</p>
             <p className="text-foreground mt-1">
@@ -122,57 +138,33 @@ export default function CertificationModal({
             </p>
           </div>
 
-          {/* Exam Attempts */}
-          <div>
-            <p className="text-muted-foreground">Exam Attempts:</p>
-            <p className="text-foreground">
-              {cert.number_of_attempts} Attempts
-            </p>
-          </div>
-
-          {/* Exam Format */}
-          <div>
-            <p className="text-muted-foreground">Exam Format:</p>
-            <p className="text-foreground">
-              {cert.exam_details_data?.format || "None"}
-            </p>
-          </div>
-
-          {/* Exam Duration */}
-          <div>
-            <p className="text-muted-foreground">Exam Duration:</p>
-            <p className="text-foreground">
-              {cert.exam_details_data?.duration || "None"}
-            </p>
-          </div>
-
-          {/* Exam Report */}
-          <div>
-            <p className="text-muted-foreground">Exam Report:</p>
-            <p
-              className={
-                cert.exam_details_data?.report_required
-                  ? "text-destructive font-semibold"
-                  : "text-foreground"
-              }
-            >
-              {cert.exam_details_data?.report_required
+          <InfoField
+            label="Exam Attempts"
+            value={`${cert.number_of_attempts} Attempts`}
+          />
+          <InfoField
+            label="Exam Format"
+            value={cert.exam_details_data?.format || "None"}
+          />
+          <InfoField
+            label="Exam Duration"
+            value={cert.exam_details_data?.duration || "None"}
+          />
+          <InfoField
+            label="Exam Report"
+            value={
+              cert.exam_details_data?.report_required
                 ? "Required"
-                : "Not Required"}
-            </p>
-          </div>
-
-          {/* Skill Level */}
-          <div>
-            <p className="text-muted-foreground">Skill Level:</p>
-            <p className="text-foreground">{cert.skill_level}</p>
-          </div>
-
-          {/* Total Votes */}
-          <div>
-            <p className="text-muted-foreground">Total Votes:</p>
-            <p className="text-foreground">{cert.total_votes}</p>
-          </div>
+                : "Not Required"
+            }
+            valueClassName={
+              cert.exam_details_data?.report_required
+                ? "text-destructive font-semibold"
+                : ""
+            }
+          />
+          <InfoField label="Skill Level" value={cert.skill_level} />
+          <InfoField label="Total Votes" value={cert.total_votes} />
         </div>
       </DialogContent>
     </Dialog>

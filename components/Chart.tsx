@@ -1,57 +1,26 @@
 "use client";
 
 import { Certification } from "@/lib/types";
+import { CERT_TYPE_CONFIG } from "@/lib/constants";
+import { groupCertificationsByType } from "@/lib/utils/certifications";
 import dynamic from "next/dynamic";
 
 const Chart = dynamic(() => import("react-apexcharts"), {
   ssr: false,
 });
+
 type Props = {
   data: Certification[];
   onSelect: (cert: Certification) => void;
 };
 
 export default function ChartComponent({ data, onSelect }: Props) {
-  // Group certifications by cert_type
-  const certTypeMap = {
-    blue: {
-      name: "Blue Team",
-      color: "var(--color-cert-blue)",
-    },
-    red: {
-      name: "Red Team",
-      color: "var(--color-cert-red)",
-    },
-    infosec: {
-      name: "InfoSec",
-      color: "var(--color-cert-infosec)",
-    },
-  };
-
-  const grouped = {
-    blue: [] as any[],
-    red: [] as any[],
-    infosec: [] as any[],
-  };
-  data.forEach((cert) => {
-    const type =
-      cert.cert_type === "blue"
-        ? "blue"
-        : cert.cert_type === "red"
-        ? "red"
-        : "infosec";
-    grouped[type].push({
-      x: cert.market_presence,
-      y: cert.satisfaction,
-      name: cert.abbreviation,
-      meta: { title: cert.title, votes: cert.total_votes, cert: cert },
-    });
-  });
+  const grouped = groupCertificationsByType(data);
 
   const series = Object.entries(grouped)
     .filter(([, arr]) => arr.length > 0)
     .map(([type, arr]) => ({
-      name: certTypeMap[type as keyof typeof certTypeMap].name,
+      name: CERT_TYPE_CONFIG[type as keyof typeof CERT_TYPE_CONFIG].name,
       data: arr,
     }));
   const options: ApexCharts.ApexOptions = {
@@ -157,7 +126,10 @@ export default function ChartComponent({ data, onSelect }: Props) {
 
     colors: Object.entries(grouped)
       .filter(([, arr]) => arr.length > 0)
-      .map(([type]) => certTypeMap[type as keyof typeof certTypeMap].color),
+      .map(
+        ([type]) =>
+          CERT_TYPE_CONFIG[type as keyof typeof CERT_TYPE_CONFIG].color
+      ),
 
     grid: {
       borderColor: "rgba(148,163,184,0.06)",

@@ -8,23 +8,22 @@ import CertificationModal from "@/components/CertificationModal";
 import { Certification } from "@/lib/types";
 import { Button } from "@/components/ui/button";
 import { Maximize2, Minimize2 } from "lucide-react";
+import {
+  filterCertifications,
+  type FilterState,
+} from "@/lib/utils/certifications";
 
 export default function Home() {
   const [search, setSearch] = useState("");
-  const [filters, setFilters] = useState({ type: "blue", level: "" });
+  const [filters, setFilters] = useState<FilterState>({
+    type: "blue",
+    level: [],
+  });
   const [selected, setSelected] = useState<Certification | null>(null);
   const [fullscreen, setFullscreen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
-  const filtered = certifications.filter((certification) => {
-    return (
-      (!filters.type || certification.cert_type === filters.type) &&
-      (!filters.level.length ||
-        filters.level.includes(certification.skill_level)) &&
-      (certification.title.toLowerCase().includes(search.toLowerCase()) ||
-        certification.abbreviation.toLowerCase().includes(search.toLowerCase()))
-    );
-  });
+  const filtered = filterCertifications(certifications, search, filters);
 
   useEffect(() => {
     const handleFullscreenChange = () => {
