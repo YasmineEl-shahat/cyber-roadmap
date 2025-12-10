@@ -1,33 +1,17 @@
 "use client";
 
-import { useState } from "react";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { MultiSelect } from "@/components/ui/multi-select";
-import {
-  CERT_TYPES,
-  CERT_TYPE_CONFIG,
-  SKILL_LEVELS,
-  type CertType,
-} from "@/lib/constants";
+import { CERT_TYPES, CERT_TYPE_CONFIG, SKILL_LEVELS } from "@/lib/constants";
+import { useFilters } from "@/hooks/useFilters";
 
-export default function Filters({
-  onFilter,
-}: {
+interface FiltersProps {
   onFilter: (filterType: string, filterValue: string | string[]) => void;
-}) {
-  const [activeType, setActiveType] = useState<CertType>("blue");
-  const [selectedLevels, setSelectedLevels] = useState<string[]>([]);
+}
 
-  const handleTypeChange = (value: string) => {
-    const type = value as CertType;
-    setActiveType(type);
-    onFilter("type", type);
-  };
-
-  const handleLevelsChange = (values: string[]) => {
-    setSelectedLevels(values);
-    onFilter("level", values);
-  };
+export default function Filters({ onFilter }: FiltersProps) {
+  const { activeType, selectedLevels, handleTypeChange, handleLevelsChange } =
+    useFilters({ onFilter });
 
   return (
     <div className="flex items-center gap-6 flex-wrap">

@@ -1,54 +1,19 @@
 "use client";
-import { useState, useRef, useEffect } from "react";
+
 import { certifications } from "@/lib/mock-data";
 import ChartComponent from "@/components/Chart";
 import SearchBox from "@/components/SearchBox";
 import Filters from "@/components/Filters";
 import CertificationModal from "@/components/CertificationModal";
-import { Certification } from "@/lib/types";
 import { Button } from "@/components/ui/button";
 import { Maximize2, Minimize2 } from "lucide-react";
-import {
-  filterCertifications,
-  type FilterState,
-} from "@/lib/utils/certifications";
+import { useFullscreen } from "@/hooks/useFullscreen";
+import { useCertificationFiltering } from "@/hooks/useCertificationFiltering";
 
 export default function Home() {
-  const [search, setSearch] = useState("");
-  const [filters, setFilters] = useState<FilterState>({
-    type: "blue",
-    level: [],
-  });
-  const [selected, setSelected] = useState<Certification | null>(null);
-  const [fullscreen, setFullscreen] = useState(false);
-  const containerRef = useRef<HTMLDivElement>(null);
-
-  const filtered = filterCertifications(certifications, search, filters);
-
-  useEffect(() => {
-    const handleFullscreenChange = () => {
-      setFullscreen(!!document.fullscreenElement);
-    };
-
-    document.addEventListener("fullscreenchange", handleFullscreenChange);
-    return () => {
-      document.removeEventListener("fullscreenchange", handleFullscreenChange);
-    };
-  }, []);
-
-  const toggleFullscreen = async () => {
-    if (!containerRef.current) return;
-
-    try {
-      if (!document.fullscreenElement) {
-        await containerRef.current.requestFullscreen();
-      } else {
-        await document.exitFullscreen();
-      }
-    } catch (error) {
-      console.error("Error toggling fullscreen:", error);
-    }
-  };
+  const { fullscreen, containerRef, toggleFullscreen } = useFullscreen();
+  const { setSearch, updateFilter, selected, setSelected, filtered } =
+    useCertificationFiltering({ certifications });
 
   return (
     <main className="space-y-4 min-h-screen">
@@ -69,9 +34,7 @@ export default function Home() {
           )}
         </Button>
         <SearchBox onChange={setSearch} />
-        <Filters
-          onFilter={(key, val) => setFilters((p) => ({ ...p, [key]: val }))}
-        />
+        <Filters onFilter={updateFilter} />
         <ChartComponent data={filtered} onSelect={setSelected} />
       </div>
       <CertificationModal
