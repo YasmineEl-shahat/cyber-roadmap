@@ -23,6 +23,43 @@ export default function ChartComponent({ data, onSelect }: Props) {
       name: CERT_TYPE_CONFIG[type as keyof typeof CERT_TYPE_CONFIG].name,
       data: arr,
     }));
+
+  // Shared style constants
+  const foregroundColor = "var(--color-foreground)";
+  const borderColorLight = "rgba(148,163,184,0.12)";
+  const borderColorLighter = "rgba(148,163,184,0.06)";
+  const labelTextColor = "rgb(148, 163, 184)";
+
+  const baseAxisLabelStyle = {
+    color: foregroundColor,
+  };
+
+  const baseAnnotationLabelStyle = {
+    color: labelTextColor,
+    fontSize: "12px",
+    background: "rgba(241, 245, 249, 0.11)",
+  };
+
+  const createAnnotationPoint = (
+    x: number,
+    y: number,
+    text: string,
+    offsetX = 0,
+    offsetY = 0
+  ) => ({
+    x,
+    y,
+    marker: { size: 0 },
+    label: {
+      text,
+      style: baseAnnotationLabelStyle,
+      offsetX,
+      offsetY,
+      borderColor: borderColorLighter,
+      borderWidth: 0,
+    },
+  });
+
   const options: ApexCharts.ApexOptions = {
     chart: {
       type: "scatter",
@@ -51,10 +88,10 @@ export default function ChartComponent({ data, onSelect }: Props) {
       tickAmount: 5,
       title: {
         text: "Market Presence",
-        style: { color: "var(--color-foreground)" },
+        style: baseAxisLabelStyle,
       },
       labels: {
-        style: { colors: "var(--color-foreground)" },
+        style: { colors: foregroundColor },
       },
     },
 
@@ -64,14 +101,14 @@ export default function ChartComponent({ data, onSelect }: Props) {
       tickAmount: 4,
       axisBorder: {
         show: true,
-        color: "var(--color-foreground)",
+        color: foregroundColor,
       },
       title: {
         text: "Satisfaction",
-        style: { color: "var(--color-foreground)" },
+        style: baseAxisLabelStyle,
       },
       labels: {
-        style: { colors: "var(--color-foreground)" },
+        style: { colors: foregroundColor },
       },
     },
 
@@ -148,84 +185,20 @@ export default function ChartComponent({ data, onSelect }: Props) {
       xaxis: [
         {
           x: 0.5,
-          borderColor: "rgba(148,163,184,0.12)",
+          borderColor: borderColorLight,
         },
       ],
       yaxis: [
         {
           y: 3,
-          borderColor: "rgba(148,163,184,0.12)",
+          borderColor: borderColorLight,
         },
       ],
       points: [
-        {
-          x: 0.25,
-          y: 4.85,
-          marker: { size: 0 },
-          label: {
-            text: "CHALLENGERS",
-            style: {
-              color: "rgb(148, 163, 184)",
-              fontSize: "12px",
-              background: "rgba(241, 245, 249, 0.11)",
-            },
-            offsetY: -18,
-            offsetX: 0,
-            borderColor: "rgba(148,163,184,0.06)",
-            borderWidth: 0,
-          },
-        },
-        {
-          x: 0.75,
-          y: 4.85,
-          marker: { size: 0 },
-          label: {
-            text: "LEADERS",
-            style: {
-              color: "rgb(148, 163, 184)",
-              fontSize: "12px",
-              background: "rgba(241, 245, 249, 0.11)",
-            },
-            offsetY: -18,
-            offsetX: 0,
-            borderColor: "rgba(148,163,184,0.06)",
-            borderWidth: 0,
-          },
-        },
-        {
-          x: 0.3,
-          y: 1,
-          marker: { size: 0 },
-          label: {
-            text: "NICHE PLAYERS",
-            style: {
-              color: "rgb(148, 163, 184)",
-              fontSize: "12px",
-              background: "rgba(241, 245, 249, 0.11)",
-            },
-            offsetX: -40,
-            offsetY: 0,
-            borderColor: "rgba(148,163,184,0.06)",
-            borderWidth: 0,
-          },
-        },
-        {
-          x: 0.75,
-          y: 1.12,
-          marker: { size: 0 },
-          label: {
-            text: "VISIONARIES",
-            style: {
-              color: "rgb(148, 163, 184)",
-              fontSize: "12px",
-              background: "rgba(241, 245, 249, 0.11)",
-            },
-            offsetY: 12,
-            offsetX: 0,
-            borderColor: "rgba(148,163,184,0.06)",
-            borderWidth: 0,
-          },
-        },
+        createAnnotationPoint(0.25, 4.85, "CHALLENGERS", 0, -18),
+        createAnnotationPoint(0.75, 4.85, "LEADERS", 0, -18),
+        createAnnotationPoint(0.3, 1, "NICHE PLAYERS", -40, 0),
+        createAnnotationPoint(0.75, 1.12, "VISIONARIES", 0, 12),
       ],
     },
   };
